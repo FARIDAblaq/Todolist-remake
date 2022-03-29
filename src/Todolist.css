@@ -1,0 +1,16 @@
+.Wrapper{
+    background-color:#ffff;
+    border-radius:0.375rem;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0.15);
+    width: 600px;
+    text-align:center;
+    margin: 0 auto;
+    margin-top: 5%;
+}
+
+body{
+    font-family: 'Roboto';
+    color: #212529;
+   
+    
+}
