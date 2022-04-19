@@ -1,5 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components/macro'
+import Box from '@material-ui/core/Box'
+import Modal from '@material-ui/core/Modal';
+
+
 
 const Component = styled.div`
 padding: 1rem;
@@ -48,15 +52,36 @@ width:80%;
 padding: 1rem;
 border:0;`
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
+
 export class Update extends React.Component{
    
     constructor(props){
         super(props);
+        console.log(props)
         this.state = {
-            value : '',
-            edit : false
-
+            value : this.props.label,
+            edit : false,
+            open : false
         }
+    }
+    handleOpen = ()=>{
+        this.setState({value:this.props.label, open: true})
+    }
+
+    handleClose=()=>{
+        this.setState({open: false});
     }
 
     handleUpdateTask= (event)=>{
@@ -64,7 +89,7 @@ export class Update extends React.Component{
 
         this.setState({ value: inputValue})
 
-        if(inputValue === ''){
+        if(inputValue === this.props.label){
             this.setState({edit: false}) 
         } else{
             this.handleEditmode()
@@ -83,22 +108,30 @@ export class Update extends React.Component{
 
     handleSubmit = () =>{
         this.props.onUpdate(this.state.value,this.props.id) 
-        this.setState({value: '', edit:false})
+        this.setState({value: this.state.value, edit:false,open:false})
     }
 
-    render(){   
+    render(){ 
         return (
             <Component> 
-                {this.state.edit&&<Wrapper>
-                <StyledInput 
-                    placeholder='Update item'
-                    value= {this.state.value}
-                    onChange={this.handleUpdateTask}
-                    onKeyPress={this.handleKeyPress}
-                    />
-                    <Button onClick={this.handleSubmit}>Update</Button>
+                <Button onClick={this.handleOpen}>  Edit</Button>
+                {this.state.open&&<Wrapper><Modal
+                open={true}
+                onClose={this.handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <StyledInput 
+                        placeholder='Update item'
+                        value= {this.state.value}
+                        onChange={this.handleUpdateTask}
+                        onKeyPress={this.handleKeyPress}
+                        />
+                        <Button onClick={this.handleSubmit}>Update</Button>
+                    </Box>
+                </Modal>
                 </Wrapper>}
-                <Button onClick={this.handleEditmode}>  Edit</Button>
             </Component>
             
         )

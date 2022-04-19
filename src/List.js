@@ -3,6 +3,8 @@ import styled from 'styled-components/macro'
 import Checkbox from '@material-ui/icons/CheckBox'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Update from './Update'
+import ArrowRightAltSharp from '@material-ui/icons/ArrowRightAltSharp'
+
 
 const Component = styled.div`
 padding: 1rem;
@@ -17,7 +19,6 @@ align-items: center;
     margin-bottom:0.5rem;
 }
 `
-
 const buttonStyles = `
 background-color:#ed2f7;
 width:20px;
@@ -38,42 +39,18 @@ font-size: 0.9rem;
     filter: brightness(105%);
 }
 `
-const deletebuttonStyles = `
-    border:0;
-    border-left:1px solid #e2e8f0;
-    background-color:#6c757d;
-    color: #fff;
-    padding: 1rem 2rem;
-    width:100px;
-    height:60px;
-    text-align: center;
-    padding:0;
-    font-weight: 400;
-    transition: all 0.25s ease-in-out;
-&:focus{
-    outline: 0;
-}
-
-&:hover:{
-    cursor: pointer;
-    filter: brightness(105%);
-}
-`
 
 const Complete = styled.button`
 ${buttonStyles}
 
 border: ${props => props.completed ? 0: '1px solid #e2e8f0'};
-
 `
-
 const Label = styled.p`
 margin: 0 0 0 0.5rem;
-flex: 1;
+//flex: 1;
 
 text-decoration:${props => props.completed ? 'line-through': 'none'};
 color: ${props => props.completed ? '#4A5568':'#000'};
-
 
 &:hover{
     cursor: pointer;
@@ -81,37 +58,54 @@ color: ${props => props.completed ? '#4A5568':'#000'};
 
 }
 `
+const Nextdate = styled.p`
+margin: 0.5rem;
+flex: 1;
+`
 const NoItems = styled.p`
 margin: 0;
 text-align: center;
 color: #4a5568;
 `
-const Button = styled.button`
-${deletebuttonStyles}
-border;0;
-border-radius:0%;
-`
 
 
-const List = ({items,onComplete,onDelete,onUpdate}) => (
+const List = ({items,onComplete,onMoveForward,onDelete,onUpdate}) => (
     <Component>
-    {items.map(({id,completed,label}) => (
-    
+    {/* <div>{today}</div> */}
+    {items.map(({id,completed,label,date}) => (
         <Item key={id}>
             <Complete completed={completed} 
-            onClick={onComplete(id)}>{completed && (
-             <Checkbox />)}
+            onClick={() => onComplete(id)}>{completed && (
+            <Checkbox />)} 
             </Complete>
             <Label completed={completed}>{label}</Label>
-            <Update id={id} onUpdate={onUpdate}/>
+            <Nextdate>{date}</Nextdate>
+            <ArrowRightAltSharp onClick={() => onMoveForward(id)}></ArrowRightAltSharp>
             <DeleteIcon onClick={onDelete(id)} />
+            <Update id={id} label={label} onUpdate={onUpdate}/>  
         </Item>
         )
-
     )
     }{items.length===0 && <NoItems> You have No items</NoItems>}
     </Component>
 )
+
+// const component = ( {onClick}) => {
+//     const handleClick = () => {
+//         onClick();
+//         farida();
+//     }
+//     return <button onClick={() => {
+//         onClick()
+//     }}></button>
+// }
+
+// function farida(){
+//     console.log('hello')
+// }
+
+// <component onClick={farida}/>
+
 
 
 export default List

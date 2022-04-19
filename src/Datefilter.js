@@ -6,32 +6,33 @@ class DatePicker extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            date: new Date()
+            date: new Date().toDateString()
         };
     }
 
     today=()=>{
-        return this.state.date.toDateString();
+        return this.state.date;
     }
 
     movedayforward=()=>{
-        let ndate = this.state.date.getDate() + 1;
-        const newdate = {
-            date: ndate
-        };
-        this.setState({date: newdate})
-        console.log(newdate)
-        return newdate;
+        const currentdate = new Date()
+        currentdate.setDate(currentdate.getDate()+1);
+        let nextdate = currentdate.toDateString();
+        this.setState({date: nextdate})
+        console.log(currentdate.toDateString());
+    
+        return nextdate;
+    
     }
 
     movedaybackward=()=>{
-        let ndate = this.state.date.getDate() - 1;
-        const newdate = {
-            date: ndate
-        }
-        this.setState({date: newdate})
-        console.log(newdate)
-        return newdate.toDateString();
+        const currentdate = new Date()
+        currentdate.setDate(currentdate.getDate() - 1);
+        let prevdate = currentdate.toDateString();
+        this.setState({date: prevdate})
+        console.log(currentdate.toDateString());
+    
+        return prevdate;
     }
 
 
